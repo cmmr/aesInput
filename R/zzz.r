@@ -6,14 +6,17 @@
   registerInputHandler("AesInput", force = TRUE, function (value, session, inputId) {
     
     if (is.character(value))
-      value <- jsonlite::fromJSON(value)
+      value <- jsonlite::fromJSON(value, simplifyDataFrame = FALSE)
     
     if (is.null(value))                 return (NULL)
     if (length(value) == 0)             return (NULL)
-    if (is.null(value[['column']]))     return (NULL)
-    if (length(value[['column']]) == 0) return (NULL)
     
-    attr(value, 'class') <- c("aesInput", "list")
+    for (i in seq_along(value)) {
+      attr(value[[i]], 'class') <- c("aesInput", "list")
+      
+      if (value[[i]][['picker']] == "shape" || value[[i]][['mode']] == "numeric")
+        value[[i]][['vals']] %<>% as.numeric()
+    }
     
     return (value)
   })

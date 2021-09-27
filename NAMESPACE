@@ -1,0 +1,12 @@
+export(aesInput)
+export(ai.aes)
+export(ai.flatten)
+export(ai.scales)
+export(ai.subset)
+export(aesInputDemo)
+
+
+import("shiny")
+importFrom("magrittr", "%>%", "%<>%")
+importFrom("rlang", "%||%")
+

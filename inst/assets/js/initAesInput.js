@@ -1,6 +1,10 @@
 function initAesInput (inputId, jsonIn, picker) {
    
   //alert(JSON.stringify(jsonIn));
+  
+  if (picker == "multi") {
+    document.getElementById(inputId + "-parent").setAttribute('multiple', '');
+  }
    
    
   $("#" + inputId + "-parent").selectize({
@@ -278,9 +282,22 @@ function initAesInput (inputId, jsonIn, picker) {
           // Initialize each color/shape/pattern picker.
           // --------------------------------------------------------------
           onItemAdd: function (value, item) {
+            
+            if (picker == "basic" || picker == "multi") return null;
+            
             if (picker == "color")   ai_color_picker(lvlC,   value, item, optionList.length);
             if (picker == "shape")   ai_shape_picker(lvlC,   value, item, optionList.length);
             if (picker == "pattern") ai_pattern_picker(lvlC, value, item, optionList.length);
+            
+            // Only allow one popover to be open at once.
+            // Simulate closing clicks instead of calling $(this).popover('hide')
+            // https://stackoverflow.com/q/32581987/3259270
+            // --------------------------------------------------------------
+            $("#" + lvlC + "-" + value + "-pop").on("show.bs.popover", function () {
+              $('body').children(".popover").each(function() {
+                $('[aria-describedby="' + this.id + '"]').click();
+              });
+            });
           },
            
            
@@ -321,6 +338,10 @@ function initAesInput (inputId, jsonIn, picker) {
      
     onItemRemove: function (value) {
       $("#" + inputId + "-" + value + "A").remove();
+    },
+     
+    onBlur: function () {
+       $("#" + inputId).triggerHandler("update");
     }
      
   });

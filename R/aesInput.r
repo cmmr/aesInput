@@ -5,7 +5,7 @@ aesInput <- function(inputId, label, data, allow=c("factor", "numeric"), picker=
   
   stopifnot(length(picker) == 1)
   stopifnot(picker %in% c("basic", "multi", "color", "shape", "pattern"))
-  multi <- ifelse(picker == "multi", "multiple", "")
+  multiple <- ifelse(picker == "multi", "multiple", "")
   
   md <- data
   md <- md[,sapply(seq_len(ncol(md)), function (x) any(class(md[[x]]) %in% allow) ), drop=FALSE]
@@ -64,7 +64,7 @@ aesInput <- function(inputId, label, data, allow=c("factor", "numeric"), picker=
       '
         <div id="{inputId}" class="control-group aesinput" data-picker="{picker}">
           <label for="{inputId}-parent">{label}</label>
-          <select id="{inputId}-parent" {multi} class="form-control aesinput-parent"></select>
+          <select id="{inputId}-parent" class="form-control aesinput-parent"></select>
         </div>
         
         <script type="text/javascript">

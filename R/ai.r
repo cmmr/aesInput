@@ -1,47 +1,3 @@
-#' Generate aesthetic mappings based on one or more aesInputs.
-#' 
-#' @param ...  aesInput values, arbitrarily nested in lists. Other 
-#'        \link{ggplot2::aes_string()} arguments can go here as well and will
-#'        override those from aesInputs.
-#' @param exec  When \code{TRUE} (the default) an aes object will be returned,
-#'        otherwise a list of aes key/value pairs will be returned.
-#' @return See \code{exec}, above.
-#' @family aesInput
-#' @export
-#'
-
-ai.aes <- function (..., exec = TRUE) {
-  dots <- list(...)
-  
-  # Named parameters. E.g. ai.aes(x='carat', y='price')
-  p <- dots[names(dots) != ""]
-  
-  # Add color, shape, and pattern column names to aes.
-  # Don't overwrite values given as named parameters above.
-  for (ai in ai.flatten(dots[names(dots) == ""])) {
-    
-    picker  <- ai[['picker']]
-    colname <- capture.output(as.name(ai[['column']]))
-    
-    if (picker == 'color') {
-      if (is.null(p[['color']])) p[['color']] <- colname
-      if (is.null(p[['fill']]))  p[['fill']]  <- colname
-      
-    } else if (picker == 'shape') {
-      if (is.null(p[['shape']])) p[['shape']] <- colname
-      
-    } else if (picker == 'pattern') {
-      if (is.null(p[['pattern_type']]))
-        p[['pattern_type']] <- colname
-    }
-  }
-  
-  if ('pattern_type' %in% names(p) && any(c('color', 'fill') %in% names(p)))
-    p[['pattern_fill']] <- p[['color']] %||% p[['fill']]
-  
-  if (exec) do.call(aes_string, p) else p
-}
-
 
 #' Turns nested lists of aesInputs into a single list.
 #' 
@@ -66,53 +22,118 @@ ai.flatten <- function (...) {
 }
 
 
-#' Convert aesInputs into named vectors. 
+#' Subset a data.frame based on aesInput(s) values.
 #' 
+#' @param data  A data.frame/tibble/etc object.
 #' @param ...  aesInput values, arbitrarily nested in lists.
-#' @return A list of aesInput values.
+#' @return Subsetted \code{data} object.
 #' @family aesInput
 #' @export
 #'
-#'
-# color, shape, and pattern are named in the returned list; rest are not.
-ai.vals <- function (...) {
-  results <- list()
+ai.subset <- function (data, ...) {
   
   for (ai in ai.flatten(list(...))) {
     
-    if (ai[['class']] == "numeric") {
-      results %<>% c(c('from' = ai[['from']], 'to' = ai[['to']]))
+    colname <- ai[['column']]
+    colvals <- data[[colname]]
+    
+    if (ai[['mode']] == "numeric") {
+      keep <- colvals >= ai[['vals']][[1]] & colvals <= ai[['vals']][[2]]
       
     } else {
-    
-      scp <- intersect(names(ai), c('color', 'shape', 'pattern'))
-      sel <- ai[['selected']]
-      
-      if (length(scp) == 1) { results[[scp]] <- setNames(ai[[scp]], sel)
-      } else                { results        %<>% c(setNames(sel, sel)) }
+      if (is.character(colvals)) {
+        keep <- colvals %in% ai[['keys']]
+      } else {
+        keep <- as.character(colvals) %in% ai[['keys']]
+        data[[colname]] %<>% factor(levels = ai[['keys']])
+      }
     }
+    
+    data <- data[keep,,drop=FALSE]
   }
   
-  return (results)
+  return (data)
 }
 
 
+
+#' Generate aesthetic mappings based on one or more aesInputs.
+#' 
+#' @param ...  aesInput values, arbitrarily nested in lists. Other 
+#'        \link{ggplot2::aes_string()} arguments can go here as well and will
+#'        override those from aesInputs.
+#' @param exec  When \code{TRUE} (the default) an aes object will be returned,
+#'        otherwise a list of aes key/value pairs will be returned.
+#' @return See \code{exec}, above.
+#' @family aesInput
+#' @export
+#'
+ai.aes <- function (..., exec = TRUE) {
+  dots <- list(...)
+  
+  # Named parameters. E.g. ai.aes(x='carat', y='price')
+  p <- dots[names(dots) != ""]
+  
+  # Add color, shape, and pattern column names to aes.
+  # Don't overwrite values given as named parameters above.
+  for (ai in ai.flatten(dots[names(dots) == ""])) {
+    
+    picker  <- ai[['picker']]
+    colname <- capture.output(as.name(ai[['column']]))
+    
+    keys <- if (picker == 'color')   { c('color', 'fill')
+    } else  if (picker == 'shape')   { c('shape')
+    } else  if (picker == 'pattern') { c('pattern_type')
+    } else                           { c() }
+    
+    for (k in keys)
+      if (is.null(p[[k]]))
+        p[[k]] <- colname
+  }
+  
+  if ('pattern_type' %in% names(p) && any(c('color', 'fill') %in% names(p)))
+    p[['pattern_fill']] <- p[['color']] %||% p[['fill']]
+  
+  if (exec) do.call(ggplot2::aes_string, p) else p
+}
+
+
+#' Assign colors/shapes/patterns to data values using ggplot2 or ggpattern 
+#' scales.
+#' 
+#' @param ...  aesInput values, arbitrarily nested in lists. Other 
+#'        \link{ggplot2::aes_string()} arguments can go here as well and will
+#'        override those from aesInputs.
+#'        
+#' @param exec  If exec is TRUE (the default), returns a ggproto object, a list
+#'        describing what functions should be run with what parameters is
+#'        returned.
+#'        
+#' @return A list of ggproto objects, or a descriptive list thereof if 
+#'         \code{exec=FALSE}.
+#'         
+#' @family aesInput
+#' @export
+#'
 ai.scales <- function (..., exec=TRUE) {
   
-  vals <- ai.vals(...)[c('color', 'shape', 'pattern')]
+  vals <- list()
+  for (ai in ai.flatten(list(...)))
+    if (ai[['picker']] %in% c('color', 'shape', 'pattern'))
+      vals[[ai[['picker']]]] <- setNames(ai[['vals']], ai[['keys']])
   
+  # Use ggpattern's scales if any aesthetic is a pattern
   pat <- isTRUE('pattern' %in% names(vals))
   pkg <- ifelse(pat, "ggpattern", "ggplot2")
   if (pat) names(vals) %<>% sub("(color|shape)", "pattern_\\1", .)
   
-  # If exec is TRUE, return a ggproto object, otherwise return a list
-  # describing what functions should be run with what parameters.
+  # Run the functions or return just the specs
   if (exec) {
-    result <- NULL
+    result <- list()
     for (i in names(vals)) {
       fun <- do.call(`::`, list(pkg, sprintf("scale_%s_manual", i)))
       res <- do.call(fun, list(values = vals[[i]]))
-      result <- if (is.null(result)) res else result + res
+      result %<>% c(res)
     }
     return (result)
     
@@ -121,26 +142,5 @@ ai.scales <- function (..., exec=TRUE) {
     return (vals)
   }
   
-}
-
-
-ai.subset <- function (data, ...) {
-  
-  for (ai in ai.flatten(list(...))) {
-    
-    colname <- ai[['name']]
-    colvals <- data[[colname]]
-    
-    if (ai[['class']] == "numeric") {
-      keep <- colvals >= ai[['from']] && colvals <= ai[['to']]
-      
-    } else {
-      keep <- as.character(colvals) %in% ai[['selected']]
-      data[[colname]] %<>% factor(levels = ai[['selected']])
-    }
-    data <- data[keep,,drop=FALSE]
-  }
-  
-  return (data)
 }
 

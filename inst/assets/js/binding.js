@@ -24,10 +24,10 @@ $.extend(AesInput, {
     // Each metadata column selected from aesinput-parent becomes an 'aesinput-child'.
     $(el).find(".aesinput-child").each(function(i){
       
-      let keys = [];
-      let vals = [];
-      let mode = $(this).attr("data-mode");   // numeric or factor
-      let coln = $(this).attr("data-column"); // metadata column name (e.g. "Body Site")
+      let keys   = [];
+      let vals   = [];
+      let mode   = $(this).attr("data-mode");   // numeric or factor
+      let column = $(this).attr("data-column"); // metadata column name (e.g. "Body Site")
       
       if (mode == "numeric") {
         keys = ['min', 'max'];
@@ -38,9 +38,22 @@ $.extend(AesInput, {
           keys.push($(this).attr("data-key")); // Column values (e.g. "Saliva", "Stool")
           vals.push($(this).attr("data-val")); // Colors, shapes, etc (e.g. "#00FF00")
         });
+      
+      
+        // If none are selected, select all
+        if (keys.length == 0) {
+          keys = $(this).find(".selectize-dropdown-content").children().map(function() { return this.innerText }).get();
+          
+          if (picker == "color" || picker == "shape" || picker == "pattern") {
+            if (picker == "color")          { vals = ai_default_colors(keys.length);
+            } else if (picker == "shape")   { vals = ai_shapes;
+            } else if (picker == "pattern") { vals = ai_patterns; }
+            vals = keys.map(function(key, i) { return vals[i % vals.length] });
+          }
+        }
       }
       
-      selections.push({picker:picker, column:coln, mode:mode, keys:keys, vals:vals});
+      selections.push({picker:picker, column:column, mode:mode, keys:keys, vals:vals});
     });
     
     
@@ -56,8 +69,11 @@ $.extend(AesInput, {
   
   // See https://api.jquery.com/on/
   subscribe: function(el, callback) {
-    // Will need to manually trigger change event on the <div>
-    $(el).on('update.aesinput', function(event) { callback(false); });	
+    $(el).on('update.aesinput', function(event) {
+      if ($('body').children(".popover").length == 0) {
+        callback(false);
+      }
+    });	
   },
   
   
