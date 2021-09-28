@@ -22,6 +22,7 @@ Generate aesthetic mappings based on one or more aesInputs.
 }
 \seealso{
 Other aesInput: 
+\code{\link{aesInput}()},
 \code{\link{ai.flatten}()},
 \code{\link{ai.scales}()},
 \code{\link{ai.subset}()}

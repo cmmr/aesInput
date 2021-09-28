@@ -17,6 +17,7 @@ Turns nested lists of aesInputs into a single list.
 }
 \seealso{
 Other aesInput: 
+\code{\link{aesInput}()},
 \code{\link{ai.aes}()},
 \code{\link{ai.scales}()},
 \code{\link{ai.subset}()}

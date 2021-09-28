@@ -1,11 +1,31 @@
 
 # This function generates the client-side HTML for an aesInput
 
+#' Creates an aesInput control on a Shiny UI.
+#' 
+#' @param inputId   The \code{input} slot that will be used to access the value.
+#' @param label   Display label for the control, or \code{NULL} for no label.
+#' @param data   The data.frame to use for populating the selectize dropdown.
+#' @param allow  What types of column from \code{data} to use.
+#'        Default: \code{c("factor", "numeric")}.
+#' @param picker  \code{"basic"} (default), \code{"multi"}, \code{"color"},
+#'        \code{"shape"}, or \code{"pattern"}.
+#' @param vs   If \code{TRUE}, then instead of showing the values in the column,
+#'        combinations of values will be displayed instead.
+#' @return A list of aesInput values.
+#' @family aesInput
+#' @export
+#'
 aesInput <- function(inputId, label, data, allow=c("factor", "numeric"), picker="basic", vs=FALSE) {
   
   stopifnot(length(picker) == 1)
   stopifnot(picker %in% c("basic", "multi", "color", "shape", "pattern"))
   multiple <- ifelse(picker == "multi", "multiple", "")
+  
+  if (picker == "shape" && system.file(package = "ggpattern") == "")
+    stop(
+      "This option requires the 'ggpattern' package.\n", 
+      "remotes::install_github('coolbutuseless/ggpattern')" )
   
   md <- data
   md <- md[,sapply(seq_len(ncol(md)), function (x) any(class(md[[x]]) %in% allow) ), drop=FALSE]

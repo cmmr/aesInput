@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate aesthetic mappings based on one or more aesInputs. — ai.aes • aesInput</title>
+<title>Creates an aesInput control on a Shiny UI. — aesInput • aesInput</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Generate aesthetic mappings based on one or more aesInputs. — ai.aes" />
-<meta property="og:description" content="Generate aesthetic mappings based on one or more aesInputs." />
+<meta property="og:title" content="Creates an aesInput control on a Shiny UI. — aesInput" />
+<meta property="og:description" content="Creates an aesInput control on a Shiny UI." />
 
 
 
@@ -111,40 +111,63 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate aesthetic mappings based on one or more aesInputs.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/cmmr/aesInput/blob/master/R/ai.r'><code>R/ai.r</code></a></small>
-    <div class="hidden name"><code>ai.aes.Rd</code></div>
+    <h1>Creates an aesInput control on a Shiny UI.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/cmmr/aesInput/blob/master/R/aesInput.r'><code>R/aesInput.r</code></a></small>
+    <div class="hidden name"><code>aesInput.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Generate aesthetic mappings based on one or more aesInputs.</p>
+    <p>Creates an aesInput control on a Shiny UI.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ai.aes</span><span class='op'>(</span><span class='va'>...</span>, exec <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>aesInput</span><span class='op'>(</span>
+  <span class='va'>inputId</span>,
+  <span class='va'>label</span>,
+  <span class='va'>data</span>,
+  allow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"factor"</span>, <span class='st'>"numeric"</span><span class='op'>)</span>,
+  picker <span class='op'>=</span> <span class='st'>"basic"</span>,
+  vs <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>aesInput values, arbitrarily nested in lists. Other 
-ggplot2::aes_string() arguments can go here as well and will
-override those from aesInputs.</p></td>
+      <th>inputId</th>
+      <td><p>The <code>input</code> slot that will be used to access the value.</p></td>
     </tr>
     <tr>
-      <th>exec</th>
-      <td><p>When <code>TRUE</code> (the default) an aes object will be returned,
-otherwise a list of aes key/value pairs will be returned.</p></td>
+      <th>label</th>
+      <td><p>Display label for the control, or <code>NULL</code> for no label.</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p>The data.frame to use for populating the selectize dropdown.</p></td>
+    </tr>
+    <tr>
+      <th>allow</th>
+      <td><p>What types of column from <code>data</code> to use.
+Default: <code><a href='https://rdrr.io/r/base/c.html'>c("factor", "numeric")</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>picker</th>
+      <td><p><code>"basic"</code> (default), <code>"multi"</code>, <code>"color"</code>,
+<code>"shape"</code>, or <code>"pattern"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>vs</th>
+      <td><p>If <code>TRUE</code>, then instead of showing the values in the column,
+combinations of values will be displayed instead.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>See <code>exec</code>, above.</p>
+    <p>A list of aesInput values.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other aesInput: 
-<code><a href='aesInput.html'>aesInput</a>()</code>,
+<code><a href='ai.aes.html'>ai.aes</a>()</code>,
 <code><a href='ai.flatten.html'>ai.flatten</a>()</code>,
 <code><a href='ai.scales.html'>ai.scales</a>()</code>,
 <code><a href='ai.subset.html'>ai.subset</a>()</code></p></div>

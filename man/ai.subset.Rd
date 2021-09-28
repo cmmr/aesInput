@@ -19,6 +19,7 @@ Subset a data.frame based on aesInput(s) values.
 }
 \seealso{
 Other aesInput: 
+\code{\link{aesInput}()},
 \code{\link{ai.aes}()},
 \code{\link{ai.flatten}()},
 \code{\link{ai.scales}()}

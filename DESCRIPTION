@@ -26,5 +26,6 @@ Imports:
     rlang,
     shiny
 Suggests:
+    ggpattern,
     testthat
 RoxygenNote: 7.1.2

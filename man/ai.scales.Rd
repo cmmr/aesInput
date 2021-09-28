@@ -26,6 +26,7 @@ scales.
 }
 \seealso{
 Other aesInput: 
+\code{\link{aesInput}()},
 \code{\link{ai.aes}()},
 \code{\link{ai.flatten}()},
 \code{\link{ai.subset}()}
