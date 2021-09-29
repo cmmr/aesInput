@@ -38,8 +38,10 @@ Creates an aesInput control on a Shiny UI.
 \seealso{
 Other aesInput: 
 \code{\link{ai.aes}()},
+\code{\link{ai.column}()},
 \code{\link{ai.flatten}()},
 \code{\link{ai.scales}()},
-\code{\link{ai.subset}()}
+\code{\link{ai.subset}()},
+\code{\link{ai.values}()}
 }
 \concept{aesInput}

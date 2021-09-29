@@ -120,7 +120,7 @@
     <p>Subset a data.frame based on aesInput(s) values.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ai.subset</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>ai.subset</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>...</span>, exec <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -133,18 +133,27 @@
       <th>...</th>
       <td><p>aesInput values, arbitrarily nested in lists.</p></td>
     </tr>
+    <tr>
+      <th>exec</th>
+      <td><p>When <code>TRUE</code> (the default) returns a subsetted version of 
+<code>data</code>. If <code>FALSE</code>, a logical expression is returned 
+instead.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Subsetted <code>data</code> object.</p>
+    <p>Subsetted <code>data</code> object or a logical expression. See 
+        <code>exec</code>, above.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other aesInput: 
 <code><a href='aesInput.html'>aesInput</a>()</code>,
 <code><a href='ai.aes.html'>ai.aes</a>()</code>,
+<code><a href='ai.column.html'>ai.column</a>()</code>,
 <code><a href='ai.flatten.html'>ai.flatten</a>()</code>,
-<code><a href='ai.scales.html'>ai.scales</a>()</code></p></div>
+<code><a href='ai.scales.html'>ai.scales</a>()</code>,
+<code><a href='ai.values.html'>ai.values</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

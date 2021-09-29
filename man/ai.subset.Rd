@@ -4,15 +4,20 @@
 \alias{ai.subset}
 \title{Subset a data.frame based on aesInput(s) values.}
 \usage{
-ai.subset(data, ...)
+ai.subset(data, ..., exec = TRUE)
 }
 \arguments{
 \item{data}{A data.frame/tibble/etc object.}
 
 \item{...}{aesInput values, arbitrarily nested in lists.}
+
+\item{exec}{When \code{TRUE} (the default) returns a subsetted version of 
+\code{data}. If \code{FALSE}, a logical expression is returned 
+instead.}
 }
 \value{
-Subsetted \code{data} object.
+Subsetted \code{data} object or a logical expression. See 
+        \code{exec}, above.
 }
 \description{
 Subset a data.frame based on aesInput(s) values.
@@ -21,7 +26,9 @@ Subset a data.frame based on aesInput(s) values.
 Other aesInput: 
 \code{\link{aesInput}()},
 \code{\link{ai.aes}()},
+\code{\link{ai.column}()},
 \code{\link{ai.flatten}()},
-\code{\link{ai.scales}()}
+\code{\link{ai.scales}()},
+\code{\link{ai.values}()}
 }
 \concept{aesInput}

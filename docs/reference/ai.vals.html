@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate aesthetic mappings based on one or more aesInputs. — ai.aes • aesInput</title>
+<title>Retrieve the selected column's values. — ai.vals • aesInput</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Generate aesthetic mappings based on one or more aesInputs. — ai.aes" />
-<meta property="og:description" content="Generate aesthetic mappings based on one or more aesInputs." />
+<meta property="og:title" content="Retrieve the selected column's values. — ai.vals" />
+<meta property="og:description" content="Retrieve the selected column's values." />
 
 
 
@@ -111,45 +111,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate aesthetic mappings based on one or more aesInputs.</h1>
+    <h1>Retrieve the selected column's values.</h1>
     <small class="dont-index">Source: <a href='https://github.com/cmmr/aesInput/blob/master/R/ai.r'><code>R/ai.r</code></a></small>
-    <div class="hidden name"><code>ai.aes.Rd</code></div>
+    <div class="hidden name"><code>ai.vals.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Generate aesthetic mappings based on one or more aesInputs.</p>
+    <p>Retrieve the selected column's values.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ai.aes</span><span class='op'>(</span><span class='va'>...</span>, exec <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>ai.vals</span><span class='op'>(</span><span class='va'>ai</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>aesInput values, arbitrarily nested in lists. Other 
-<a href='https://ggplot2.tidyverse.org/reference/aes_.html'>aes_string</a> arguments can go here as well and will
-override those from aesInputs.</p></td>
-    </tr>
-    <tr>
-      <th>exec</th>
-      <td><p>When <code>TRUE</code> (the default) an aes object will be returned,
-otherwise a list of aes key/value pairs will be returned.</p></td>
+      <th>ai</th>
+      <td><p>A single aesInput object.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>See <code>exec</code>, above.</p>
+    <p>A named character vector. Names are the values from the column; 
+        values are the additional attribute (color, shape, pattern). When
+        <code>picker = "basic"</code> or <code>picker = "multi"</code> keys and values 
+        will be identical.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other aesInput: 
 <code><a href='aesInput.html'>aesInput</a>()</code>,
-<code><a href='ai.column.html'>ai.column</a>()</code>,
+<code><a href='ai.aes.html'>ai.aes</a>()</code>,
+<code><a href='ai.col.html'>ai.col</a>()</code>,
 <code><a href='ai.flatten.html'>ai.flatten</a>()</code>,
 <code><a href='ai.scales.html'>ai.scales</a>()</code>,
-<code><a href='ai.subset.html'>ai.subset</a>()</code>,
-<code><a href='ai.values.html'>ai.values</a>()</code></p></div>
+<code><a href='ai.subset.html'>ai.subset</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

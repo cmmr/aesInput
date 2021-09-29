@@ -25,34 +25,96 @@ ai.flatten <- function (...) {
 #' Subset a data.frame based on aesInput(s) values.
 #' 
 #' @param data  A data.frame/tibble/etc object.
+#' 
 #' @param ...  aesInput values, arbitrarily nested in lists.
-#' @return Subsetted \code{data} object.
+#' 
+#' @param exec   When \code{TRUE} (the default) returns a subsetted version of 
+#'        \code{data}. If \code{FALSE}, a logical expression is returned 
+#'        instead.
+#'        
+#' @return Subsetted \code{data} object or a logical expression. See 
+#'         \code{exec}, above.
+#'         
 #' @family aesInput
 #' @export
 #'
-ai.subset <- function (data, ...) {
+ai.subset <- function (data, ..., exec=TRUE) {
   
-  for (ai in ai.flatten(list(...))) {
+  if (isTRUE(exec)) {
     
-    colname <- ai[['column']]
-    colvals <- data[[colname]]
-    
-    if (ai[['mode']] == "numeric") {
-      keep <- colvals >= ai[['vals']][[1]] & colvals <= ai[['vals']][[2]]
+    for (ai in ai.flatten(list(...))) {
       
-    } else {
-      if (is.character(colvals)) {
-        keep <- colvals %in% ai[['keys']]
+      colname <- ai[['column']]
+      colvals <- data[[colname]]
+      
+      if (ai[['mode']] == "numeric") {
+        keep <- colvals >= ai[['vals']][[1]] & colvals <= ai[['vals']][[2]]
+        
       } else {
-        keep <- as.character(colvals) %in% ai[['keys']]
-        data[[colname]] %<>% factor(levels = ai[['keys']])
+        if (is.character(colvals)) {
+          keep <- colvals %in% ai[['keys']]
+        } else {
+          keep <- as.character(colvals) %in% ai[['keys']]
+          data[[colname]] %<>% factor(levels = ai[['keys']])
+        }
       }
+      
+      data <- data[keep,,drop=FALSE]
     }
     
-    data <- data[keep,,drop=FALSE]
+    # subsetted data.frame
+    return (data)
+    
+    
+  } else {
+    
+    exprs <- c()
+    
+    for (ai in ai.flatten(list(...))) {
+      
+      colname <- capture.output(as.name(ai[['column']]))
+      
+      if (ai[['mode']] == "numeric") {
+        min  <- as.numeric(ai[['vals']][[1]])
+        max  <- as.numeric(ai[['vals']][[2]])
+        
+        if (min == max) {
+          expr <- glue('{colname} == {min}')
+          
+        } else {
+          expr <- glue('{colname} >= {min} && {colname} <= {max}')
+          
+          # See if the expression can be simplified.
+          if (!is.null(data)) {
+            
+            if (min == base::min(data[[ai[['column']]]], na.rm = TRUE)) min <- NA
+            if (max == base::max(data[[ai[['column']]]], na.rm = TRUE)) max <- NA
+            
+            if (is.na(min) && is.na(max)) { expr <- glue('!is.na({colname})')
+            } else if (is.na(max))        { expr <- glue('{colname} >= {min}')
+            } else if (is.na(min))        { expr <- glue('{colname} <= {max}') }
+            
+          }
+        }
+        
+      } else {
+        keys <- ai[['keys']] %>% as.character() %>% double_quote()
+        
+        if (length(keys) == 1) {
+          expr <- glue('{colname} == {keys}')
+          
+        } else {
+          expr <- glue('{colname} %in% c({paste(keys, collapse = ", ")})')
+        }
+      }
+      
+      exprs %<>% c(expr)
+    }
+    
+    # subsetting expression
+    expr <- parse(text = paste(collapse = " & ", exprs))
+    return (expr)
   }
-  
-  return (data)
 }
 
 
@@ -142,5 +204,51 @@ ai.scales <- function (..., exec=TRUE) {
     return (vals)
   }
   
+}
+
+
+#' Retrieve the selected column name.
+#' 
+#' @param ai  A single aesInput object
+#'        
+#' @return The name of the selected column.
+#'         
+#' @family aesInput
+#' @export
+#'
+ai.column <- function (ai) {
+  
+  ai <- ai.flatten(ai)[[1]]
+  
+  if (!is(ai, 'aesInput'))
+    return (NULL)
+  
+  return (ai[['column']])
+}
+
+
+#' Retrieve the selected column's values.
+#' 
+#' @param ai  A single aesInput object.
+#'        
+#' @return A named character vector. Names are the values from the column; 
+#'         values are the additional attribute (color, shape, pattern). When
+#'         \code{picker = "basic"} or \code{picker = "multi"} keys and values 
+#'         will be identical.
+#'         
+#' @family aesInput
+#' @export
+#'
+ai.values <- function (ai) {
+  
+  ai <- ai.flatten(ai)[[1]]
+  
+  if (!is(ai, 'aesInput'))
+    return (NULL)
+  
+  if (ai[['mode']] %in% c("color", "shape", "pattern"))
+    return (setNames(ai[['vals']], ai[['keys']]))
+  
+  return (setNames(ai[['keys']], ai[['keys']]))
 }
 

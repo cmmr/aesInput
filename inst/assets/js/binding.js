@@ -53,7 +53,9 @@ $.extend(AesInput, {
         }
       }
       
-      selections.push({picker:picker, column:column, mode:mode, keys:keys, vals:vals});
+      if (keys.length > 0 && vals.length > 0) {
+        selections.push({picker:picker, column:column, mode:mode, keys:keys, vals:vals});
+      }
     });
     
     

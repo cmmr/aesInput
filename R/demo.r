@@ -16,6 +16,7 @@ aesInputDemo <- function() {
       ),
       mainPanel(
         plotOutput("plot"),
+        verbatimTextOutput("subset.expr"),
         verbatimTextOutput("color.json"),
         verbatimTextOutput("shape.json"),
         verbatimTextOutput("pattern.json"),
@@ -35,16 +36,14 @@ aesInputDemo <- function() {
           z <- input[['multi']]
         )
 
-        # if (is.null(x) || is.null(y) || is.null(z))
-        #   return (NULL)
-        #
-        # browser()
-
         data    <- ai.subset(ggplot2::diamonds, ai)
         mapping <- ai.aes(ai, x = 'carat', y = 'price')
 
         ggplot(data, mapping) + geom_point() + ai.scales(ai)
       })
+      
+      output[['subset.expr']]  <- renderText({
+        as.character(ai.subset(ggplot2::diamonds, input[['multi']], exec = FALSE)) })
       
       output[['color.json']]   <- renderText({ as.character(input[['color']])   })
       output[['shape.json']]   <- renderText({ as.character(input[['shape']])   })

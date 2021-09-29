@@ -23,8 +23,10 @@ Generate aesthetic mappings based on one or more aesInputs.
 \seealso{
 Other aesInput: 
 \code{\link{aesInput}()},
+\code{\link{ai.column}()},
 \code{\link{ai.flatten}()},
 \code{\link{ai.scales}()},
-\code{\link{ai.subset}()}
+\code{\link{ai.subset}()},
+\code{\link{ai.values}()}
 }
 \concept{aesInput}

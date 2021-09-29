@@ -28,7 +28,9 @@ scales.
 Other aesInput: 
 \code{\link{aesInput}()},
 \code{\link{ai.aes}()},
+\code{\link{ai.column}()},
 \code{\link{ai.flatten}()},
-\code{\link{ai.subset}()}
+\code{\link{ai.subset}()},
+\code{\link{ai.values}()}
 }
 \concept{aesInput}

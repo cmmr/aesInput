@@ -1,5 +1,7 @@
 export(aesInput)
 export(ai.aes)
+export(ai.column)
+export(ai.values)
 export(ai.flatten)
 export(ai.scales)
 export(ai.subset)
@@ -7,6 +9,7 @@ export(aesInputDemo)
 
 
 import("shiny")
+importFrom("glue", "glue", "double_quote")
 importFrom("magrittr", "%>%", "%<>%")
 importFrom("rlang", "%||%")
 

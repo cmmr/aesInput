@@ -21,6 +21,7 @@ Depends: R (>= 3.5.0)
 Additional_repositories: https://cmmr.github.io/aesInput
 Imports:
     ggplot2,
+    glue,
     magrittr,
     ggpattern,
     rlang,
