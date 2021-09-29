@@ -218,9 +218,10 @@ ai.scales <- function (..., exec=TRUE) {
 #'
 ai.column <- function (ai) {
   
-  ai <- ai.flatten(ai) %>% head(1)
-  if (!is(ai, 'aesInput'))
-    return (NULL)
+  ai <- ai.flatten(ai)
+  if (!isTRUE(length(ai) > 0))  return (NULL)
+  if (!is(ai[[1]], 'aesInput')) return (NULL)
+  ai <- ai[[1]]
   
   return (ai[['column']])
 }
@@ -240,9 +241,10 @@ ai.column <- function (ai) {
 #'
 ai.values <- function (ai) {
   
-  ai <- ai.flatten(ai) %>% head(1)
-  if (!is(ai, 'aesInput'))
-    return (NULL)
+  ai <- ai.flatten(ai)
+  if (!isTRUE(length(ai) > 0))  return (NULL)
+  if (!is(ai[[1]], 'aesInput')) return (NULL)
+  ai <- ai[[1]]
   
   if (ai[['mode']] %in% c("color", "shape", "pattern"))
     return (setNames(ai[['vals']], ai[['keys']]))
