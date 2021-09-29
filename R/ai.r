@@ -60,7 +60,7 @@ ai.subset <- function (data, ...) {
 #' Generate aesthetic mappings based on one or more aesInputs.
 #' 
 #' @param ...  aesInput values, arbitrarily nested in lists. Other 
-#'        \link{ggplot2::aes_string()} arguments can go here as well and will
+#'        \link[ggplot2]{aes_string} arguments can go here as well and will
 #'        override those from aesInputs.
 #' @param exec  When \code{TRUE} (the default) an aes object will be returned,
 #'        otherwise a list of aes key/value pairs will be returned.
@@ -102,7 +102,7 @@ ai.aes <- function (..., exec = TRUE) {
 #' scales.
 #' 
 #' @param ...  aesInput values, arbitrarily nested in lists. Other 
-#'        \link{ggplot2::aes_string()} arguments can go here as well and will
+#'        \link[ggplot2]{aes_string} arguments can go here as well and will
 #'        override those from aesInputs.
 #'        
 #' @param exec  If exec is TRUE (the default), returns a ggproto object, a list

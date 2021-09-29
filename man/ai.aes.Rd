@@ -8,7 +8,7 @@ ai.aes(..., exec = TRUE)
 }
 \arguments{
 \item{...}{aesInput values, arbitrarily nested in lists. Other 
-\link{ggplot2::aes_string()} arguments can go here as well and will
+\link[ggplot2]{aes_string} arguments can go here as well and will
 override those from aesInputs.}
 
 \item{exec}{When \code{TRUE} (the default) an aes object will be returned,

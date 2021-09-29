@@ -9,7 +9,7 @@ ai.scales(..., exec = TRUE)
 }
 \arguments{
 \item{...}{aesInput values, arbitrarily nested in lists. Other 
-\link{ggplot2::aes_string()} arguments can go here as well and will
+\link[ggplot2]{aes_string} arguments can go here as well and will
 override those from aesInputs.}
 
 \item{exec}{If exec is TRUE (the default), returns a ggproto object, a list
