@@ -218,8 +218,7 @@ ai.scales <- function (..., exec=TRUE) {
 #'
 ai.column <- function (ai) {
   
-  ai <- ai.flatten(ai)[[1]]
-  
+  ai <- ai.flatten(ai) %>% head(1)
   if (!is(ai, 'aesInput'))
     return (NULL)
   
@@ -241,8 +240,7 @@ ai.column <- function (ai) {
 #'
 ai.values <- function (ai) {
   
-  ai <- ai.flatten(ai)[[1]]
-  
+  ai <- ai.flatten(ai) %>% head(1)
   if (!is(ai, 'aesInput'))
     return (NULL)
   
