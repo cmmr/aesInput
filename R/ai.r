@@ -182,7 +182,7 @@ ai.scales <- function (..., exec=TRUE) {
   vals <- list()
   for (ai in ai.flatten(list(...)))
     if (ai[['picker']] %in% c('color', 'shape', 'pattern'))
-      vals[[ai[['picker']]]] <- setNames(ai[['vals']], ai[['keys']])
+      vals[[ai[['picker']]]] <- ai.values(ai)
   
   # Use ggpattern's scales if any aesthetic is a pattern
   pat <- isTRUE('pattern' %in% names(vals))
@@ -246,7 +246,7 @@ ai.values <- function (ai) {
   if (!is(ai[[1]], 'aesInput')) return (NULL)
   ai <- ai[[1]]
   
-  if (ai[['mode']] %in% c("color", "shape", "pattern"))
+  if (ai[['picker']] %in% c("color", "shape", "pattern"))
     return (setNames(ai[['vals']], ai[['keys']]))
   
   return (setNames(ai[['keys']], ai[['keys']]))

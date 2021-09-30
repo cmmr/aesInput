@@ -42,13 +42,16 @@ $.extend(AesInput, {
       
         // If none are selected, select all
         if (keys.length == 0) {
-          keys = $(this).find(".selectize-dropdown-content").children().map(function() { return this.innerText }).get();
+          keys = $(this).find(".selectize-dropdown-content").children();
+          keys = keys.map(function() { return this.innerText }).get();
           
           if (picker == "color" || picker == "shape" || picker == "pattern") {
             if (picker == "color")          { vals = ai_default_colors(keys.length);
             } else if (picker == "shape")   { vals = ai_shapes;
             } else if (picker == "pattern") { vals = ai_patterns; }
             vals = keys.map(function(key, i) { return vals[i % vals.length] });
+          } else {
+            vals = keys;
           }
         }
       }
