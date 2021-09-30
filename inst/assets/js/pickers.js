@@ -118,7 +118,7 @@ function ai_shape_picker (lvlC, value, item, nOpts) {
       return ai_shapes.map(x => {
         const src     = `aesinput/shape/${x}.png`;
         const onclick = `ai_select('${lvlC}-${value}', 'shape', '${x}')`;
-        return `<img src="${src}" onclick="${onlick}">`
+        return `<img src="${src}" onclick="${onclick}">`
       });
     }
     
@@ -154,7 +154,7 @@ function ai_pattern_picker (lvlC, value, item, nOpts) {
       return ai_patterns.map(x => {
         const src     = `aesinput/pattern/${x}.png`;
         const onclick = `ai_select('${lvlC}-${value}', 'pattern', '${x}')`;
-        return `<img src="${src}" onclick="${onlick}">`
+        return `<img src="${src}" onclick="${onclick}">`
       });
     }
     
