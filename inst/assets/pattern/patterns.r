@@ -3,15 +3,16 @@ library(ggpattern)
 # library(magick)
 # library(magrittr)
 
-for (i in magick_pattern_names) {
+for (i in gridpattern::names_magick) {
   
   p <- ggplot() +
     geom_tile_pattern(
       aes(x = 1, y = 1),
-      pattern_type = i,
-      pattern       = 'magick',
-      pattern_scale = 1,
-      pattern_fill  = 'white'
+      fill         = "white",
+      pattern_fill = "black",
+      pattern_type   = i,
+      pattern        = 'magick',
+      pattern_scale  = 1
     ) + 
     theme_void()
   
